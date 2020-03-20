@@ -1,9 +1,10 @@
 .parallax {
   /* The image used */
-  background-image: url("./images/front-page-img.jpg");
+  background-image: url("./src/images/front-page-img.jpg");
 
   /* Set a specific height */
   height: 500px;
+  width: 100%;
 
   /* Create the parallax scrolling effect */
   background-attachment: fixed;
@@ -19,4 +20,39 @@
   position: absolute;
   padding: 5%;
   left: 50%;
+}
+
+.suggested-posts-container {
+  margin: 1%;
+  width: 100%;
+}
+
+.card-images {
+  max-width: 300px;
+  max-height: 175px;
+}
+
+.navbar {
+  overflow: hidden;
+}
+
+body { 
+  padding-top: 55px; 
+}
+
+.show-container {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.show-content {
+  margin-top: 50px;
+}
+
+.off-left {
+  margin-left: 5%;
+}
+
+.post-show-images {
+  max-height: 200px;
 }
