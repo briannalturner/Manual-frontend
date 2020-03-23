@@ -8,23 +8,96 @@
         <title>Manual</title>
     </head>
     <body>
+        <!-- Navbar -->
         <div class="nav-container">
-            <nav class="navbar fixed-top navbar-dark bg-dark">
+            <nav class="navbar navbar-expand-sm fixed-top navbar-dark bg-dark">
                 <a class="navbar-brand" href="#">MANUAL</a>
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                      <a class="nav-link" href="#" id="home-page">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                </ul>
+                <div class="navbar-nav mr-auto justify-content-between">
+                    <a class="nav-link" href="#" id="home-page">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#" id="all-posts">Posts <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#" id="all-users">Users <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#" id="login-button">Login <span class="sr-only">(current)</span></a>
+                </div>
+                <div>
+                    <a href="#" id="logged-in-as"></a>
+                </div>
             </nav>
         </div>
 
+
+
+        <!-- Login Modal -->
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Login</h3>
+                <p>Or <a href="#" id="create-new-user">create a new user</a></p>
+                <form id="login-form">
+                    <div class="form-group">
+                      <label for="username">Username</label>
+                      <input type="username" class="form-control" id="username_input" placeholder="Enter username">
+                    </div>
+                    <div class="form-group">
+                      <label for="password">Password</label>
+                      <input type="password" class="form-control" id="password_input" placeholder="Enter password">
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Login</button>
+                </form>
+            </div>
+        </div>
+
+
+
+        <!-- Create User Modal -->
+        <div id="createUserModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Create Profile</h3>
+                <form>
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="create_first_name">First name</label>
+                            <input type="text" class="form-control" id="create_first_name" placeholder="First name" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="create_last_name">Last name</label>
+                            <input type="text" class="form-control" id="create_last_name" placeholder="Last name" required>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label for="create_age">Age</label>
+                            <input type="number" class="form-control" id="create_age" placeholder="Age" required>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="create_username">Username</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="create_username" placeholder="Username" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="create_password">Password</label>
+                            <input type="password" class="form-control" id="create_password" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
         <div class="main-container">
+            <!-- for main picture -->
         </div>
 
         <div class="show-container">
+            <!-- for all shows -->
         </div>
-        
+
+
+
+        <!-- Recently Posted -->
         <div class="suggested-posts-container">
             <div>
                 <h2>Recently Posted</h2>
@@ -33,6 +106,8 @@
             <div class="suggested-posts">
             </div>
         </div>
+
+
 
         <script src="src/index.js"></script>
     </body>
