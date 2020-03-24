@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let allPostBtn = document.getElementById('all-posts')
     allPostBtn.addEventListener("click", fetchAllPosts)
-
 })
 
 function createLoginModal() {
@@ -43,6 +42,8 @@ function createNewUserModal() {
     let createUserModal = document.getElementById("createUserModal");
     let createUserbtn = document.getElementById("create-new-user");
     let createSpan = document.getElementsByClassName("close")[1];
+    let form = document.getElementById('new-user-form')
+    form.addEventListener("submit", saveNewUser)
     
     createUserbtn.onclick = function() {
         createUserModal.style.display = "block";
@@ -57,10 +58,40 @@ function createNewUserModal() {
     }
 }
 
+function saveNewUser(event) {
+    let firstName = event.target.create_first_name.value
+    let lastName = event.target.create_last_name.value
+    let age = event.target.create_age.value
+    let username = event.target.create_username.value
+    let password = event.target.create_password.value
+    let bio = event.target.create_bio.value
+    let image = event.target.create_image.value
+    let userContainer = document.getElementsByClassName('users-container')[0]
+
+
+    let payload = {first_name: firstName, last_name: lastName, age: age, username: username, password_digest: password, bio: bio, image: image}
+
+    fetch("http://localhost:3000/users", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(payload)
+    }).then(resp => resp.json()).then(user => userContainer.append(createUserDiv(user)))
+
+    event.target.reset()
+    event.target.parentNode.parentNode.style.display = "none";
+    let btn = document.getElementById("login-button");
+    btn.hidden = true
+}
+
 function createNewPostModal() {
     let createPostModal = document.getElementById("createPostModal");
     let createPostbtn = document.getElementById("new-post");
     let createSpan = document.getElementsByClassName("close")[2];
+    let form = document.getElementById('create_post_form')
+    form.addEventListener("submit", newPostHandler)
     
     createPostbtn.onclick = function() {
         createPostModal.style.display = "block";
@@ -73,6 +104,29 @@ function createNewPostModal() {
           createPostModal.style.display = "none";
         }
     }
+}
+
+function newPostHandler(event) {
+    let body = event.target.create_body.value
+    let subject = event.target.create_subject.value
+    let url = event.target.create_url.value
+    let postsContainer = document.getElementsByClassName('posts-container')[0]
+
+    let payload = {user_id: 5, body: body, subject: subject, url: url}
+
+    fetch("http://localhost:3000/posts", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(payload)
+    }).then(resp => resp.json()).then(post => postsContainer.append(createPostCard(post)))
+
+    event.target.reset()
+    event.target.parentNode.parentNode.style.display = "none";
+    let btn = document.getElementById("login-button");
+    btn.hidden = true
 }
 
 function fetchNewPosts() {
@@ -93,13 +147,18 @@ function renderPost(post) {
     postContainer.append(columnDiv)
 
     // creating card
+    let card = createPostCard(post)
+    columnDiv.append(card)
+}
+
+function createPostCard(post) {
     let card = document.createElement('div')
     card.classList.add('card')
     card.style.width = "90%"
     card.addEventListener("click", () => showPost(post))
 
     // if post has an image, add it
-    if (post.image != null){
+    if (post.image !== null){
         let image = document.createElement('img')
         image.src = post.image
         image.classList.add('card-image-top')
@@ -122,7 +181,8 @@ function renderPost(post) {
 
     // adding everything together
     card.append(cardBody)
-    columnDiv.append(card)
+
+    return card
 }
 
 function showPost(post) {
@@ -255,7 +315,13 @@ function renderPosts(posts) {
     p.innerHTML = `
         or <a href="#" id="new-post">write a new one</a>
     `
-    header.style.margin = '10px'
+    p.addEventListener("click", createNewPostModal)
+    header.style.marginLeft = '10px'
+    header.style.marginRight = '10px'
+    header.style.marginTop = '10px'
+    p.style.marginRight = '10px'
+    p.style.marginLeft = '20px'
+
     header.classList.add('center')
     
     posts.forEach(post => postsContainer.append(makePostCard(post)))
