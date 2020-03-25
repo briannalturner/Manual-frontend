@@ -1,12 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
     fetchNewPosts()
-    let homeBtn = document.getElementById('home-page')
-    homeBtn.addEventListener("click", landingPage)
     landingPage()
 
     createLoginModal()
     createNewUserModal()
+    createEventListenersOnPage()
     
+})
+
+function createEventListenersOnPage() {
+    let homeBtn = document.getElementById('home-page')
+    homeBtn.addEventListener("click", landingPage)
+
     let loginForm = document.getElementById('login-form')
     loginForm.addEventListener("submit", loginHandler)
 
@@ -18,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let allPostBtn = document.getElementById('all-posts')
     allPostBtn.addEventListener("click", fetchAllPosts)
-})
+}
 
 function createLoginModal() {
     let loginModal = document.getElementById("myModal");
@@ -107,12 +112,13 @@ function createNewPostModal() {
 }
 
 function newPostHandler(event) {
+    event.preventDefault()
     let body = event.target.create_body.value
     let subject = event.target.create_subject.value
     let url = event.target.create_url.value
     let postsContainer = document.getElementsByClassName('posts-container')[0]
 
-    let payload = {user_id: 5, body: body, subject: subject, url: url}
+    let payload = {user_id: 6, body: body, subject: subject, image: url}
 
     fetch("http://localhost:3000/posts", {
         method: "POST",
@@ -121,7 +127,10 @@ function newPostHandler(event) {
             "Accept": "application/json"
         },
         body: JSON.stringify(payload)
-    }).then(resp => resp.json()).then(post => postsContainer.append(createPostCard(post)))
+    }).then(resp => resp.json()).then(post => {
+        postsContainer.append(makePostCard(post))
+        fetchNewPosts()
+    })
 
     event.target.reset()
     event.target.parentNode.parentNode.style.display = "none";
@@ -133,6 +142,8 @@ function fetchNewPosts() {
     fetch("http://localhost:3000/posts").then(resp => resp.json())
         .then(posts => {
             posts = posts.slice(-4)
+            let postContainer = document.getElementsByClassName('suggested-posts')[0]
+            postContainer.innerHTML = ""
             posts.forEach(post => renderPost(post))
         })
 }
@@ -186,7 +197,6 @@ function createPostCard(post) {
 }
 
 function showPost(post) {
-    console.log("hit")
     // creating postContainer
     let postContainer = document.createElement('span')
     let showContainer = findShowContainer()
@@ -196,16 +206,26 @@ function showPost(post) {
     mainContainer.innerHTML = ""
     mainContainer.classList.remove('parallax')
     showContainer.append(postContainer)
-    postContainer.classList.add('show-content')
+    showContainer.classList.add('show-content')
+
+    let commentsContainer = document.createElement('div')
+    fetch("http://localhost:3000/comments")
+    .then(resp => resp.json())
+    .then(comments => comments.filter(comment => console.log(comment)))
 
     // adding content to postContainer
     let postTitle = document.createElement('h2')
     postTitle.innerText = post.subject
-    postContainer.append(postTitle)
+    postContainer.append(postTitle, postAuthor)
 
     let postContent = document.createElement('p')
     postContent.innerText = post.body
     postContainer.append(postContent)
+}
+
+function renderComment(comment) {
+    let commentDiv = document.createElement('div')
+    commentDiv.innerText = comment.body
 }
 
 function landingPage() {
@@ -220,7 +240,9 @@ function findMainContainer() {
     return document.getElementsByClassName('main-container')[0]
 }
 function findShowContainer() {
-    return document.getElementsByClassName('show-container')[0]
+    showContainer = document.getElementsByClassName('show-container')[0]
+    showContainer.classList.remove('show-content')
+    return showContainer
 }
 
 function loginHandler(event) {
@@ -229,11 +251,31 @@ function loginHandler(event) {
 
     let loggedInName = document.getElementById('logged-in-as')
     loggedInName.innerText = username
+    loggedInName.addEventListener("click", showUser())
+
+    // fetch("http://localhost:3000/users").then(resp => resp.json())
+    //     .then(usersArray => {
+    //         user = usersArray.filter(user => user.username == username)
+    //         if (user){
+    //             setLoggedIn(user)
+    //         } else {
+    //             alert("That user doesn't exist in our database")
+    //         }
+    //     })
+            
     event.target.reset()
     event.target.parentNode.parentNode.style.display = "none";
     let btn = document.getElementById("login-button");
     btn.hidden = true
 }
+
+// function setLoggedIn(user) {
+//     let loggedInName = document.getElementById('logged-in-as')
+//     loggedInName.innerText = user.username
+//     loggedInName.addEventListener("click", showUser())
+//     localStorage.id = user.id
+//     localStorage.username = user.username
+// }
 
 function fetchAllUsers() {
     fetch('http://localhost:3000/users').then(resp => resp.json())
