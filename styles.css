@@ -26,6 +26,12 @@
   object-fit: cover;
 }
 
+.comment-images {
+  max-width: 75px;
+  max-height: 75px;
+  object-fit: cover;
+}
+
 .navbar {
   overflow: hidden;
 }
@@ -40,7 +46,7 @@ body {
 }
 
 .show-content {
-  margin-top: 50px;
+  margin-top: 20px;
   margin-bottom: 50px;
 }
 
@@ -135,7 +141,7 @@ body {
 }
 
 .show-user-picture {
-  width: 375px; /* width of container */
+  width: 100%; /* width of container */
   height: 300px; /* height of container */
   object-fit: cover;
 }

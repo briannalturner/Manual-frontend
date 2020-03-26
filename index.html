@@ -52,7 +52,7 @@
         <div id="createUserModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <h3>Create Profile</h3>
+                <h3 id="user_form_title">Create Profile</h3>
                 <form id="new-user-form">
                     <div class="form-row">
                         <div class="col-md-4 mb-3">
@@ -91,6 +91,57 @@
                         <div class="col-md-7 mb-3">
                             <label for="create_image">Profile Picture URL</label>
                             <input type="text" class="form-control" id="create_image" placeholder="Enter URL (ex: https://website.com/profile_pic.png)">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+        
+
+        <!-- Update User Modal -->
+        <div id="updateUserModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3 id="user_form_title">Update Profile</h3>
+                <form id="update-user-form">
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="update_username">Username</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="update_username" placeholder="Username" required>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="update_password">Password</label>
+                            <input type="password" class="form-control" id="update_password" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="form-row">
+                        <div class="col-md-4 mb-3">
+                            <label for="update_first_name">First name</label>
+                            <input type="text" class="form-control" id="update_first_name" placeholder="First name" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="update_last_name">Last name</label>
+                            <input type="text" class="form-control" id="update_last_name" placeholder="Last name" required>
+                        </div>
+                        <div class="col-md-1 mb-3">
+                            <label for="update_age">Age</label>
+                            <input type="number" class="form-control" id="update_age" placeholder="Age" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-7 mb-3"> 
+                            <label for="update_bio">Bio</label>
+                            <textarea class="form-control" id="update_bio" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-7 mb-3">
+                            <label for="update_image">Profile Picture URL</label>
+                            <input type="text" class="form-control" id="update_image" placeholder="Enter URL (ex: https://website.com/profile_pic.png)">
                         </div>
                     </div>
                     <button class="btn btn-primary" type="submit">Submit</button>
@@ -140,7 +191,7 @@
         </div>
 
 
-
+        
         <script src="src/index.js"></script>
     </body>
 </html>
